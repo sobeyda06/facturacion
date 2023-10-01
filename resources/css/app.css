@@ -1,0 +1,22 @@
+body{
+    background-color: white;
+}
+
+
+#titulo{
+    background-color: rgb(253, 253, 253);
+    color: rgb(51, 55, 139);
+    text-align: center;
+    font-family: 'playfair';
+
+}
+
+tr{
+color: brown;
+}
+
+#reporte{
+    background-color: brown;
+}
+
+
