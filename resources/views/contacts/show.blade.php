@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('css')
     <style>
@@ -74,7 +74,7 @@
         <p id="title">Barrio Plan Nicaragua La Union-RUC:J0810000400833</P>
 
         <h5>FACTURA Y ESTADO DE CUENTA</h5>
-        No<input type="text" id="form" /><br />
+        No {{ $invoiceNumber ?? $contact->id }}
 
         <p id="name">Nombre: {{ $contact->name }} </p>
         <p>Cedula: {{ $contact->identification }}</p>

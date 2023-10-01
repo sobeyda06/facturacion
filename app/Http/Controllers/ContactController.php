@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\PDF;
 
@@ -25,7 +26,6 @@ final class ContactController extends Controller
      */
     public function store(Request $request)
     {
-    
         $request->validate([
             'name' => 'required',
             'identification' => 'required | unique:contacts',
@@ -37,7 +37,6 @@ final class ContactController extends Controller
             'arrears' => 'required | numeric',
             'location' => 'required',
         ]);
-            
 
         Contact::create([
             'name' => $request->input('name'),
@@ -51,7 +50,7 @@ final class ContactController extends Controller
             'location' => $request->input('location'),
         ]);
 
-    
+
         return redirect()->back();
     }
 
@@ -60,7 +59,8 @@ final class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        return view('contacts.show', compact('contact'));
+        $invoiceNumber = $this->generateInvoiceNumber();
+        return view('contacts.show', compact('contact', 'invoiceNumber'));
     }
 
     /**
@@ -103,7 +103,24 @@ final class ContactController extends Controller
    public function pdf(Contact $contact)
     {
         $pdf = app(PDF::class);
-        $pdf->loadView('contacts.show', compact('contact'));
-        return $pdf->download("invoice-{$contact->id}.pdf");
+
+        $invoiceNumber = $this->generateInvoiceNumber();
+        Invoice::create(['number' => $invoiceNumber]);
+
+        $pdf->loadView('contacts.show', compact('contact', 'invoiceNumber'));
+        return $pdf->download("invoice-{$invoiceNumber}.pdf");
+    }
+
+    private function generateInvoiceNumber(): string
+    {
+        $latestInvoice = Invoice::latest()->first();
+
+        if ($latestInvoice) {
+            $invoiceNumber = $latestInvoice->number + 1;
+        } else {
+            $invoiceNumber = 1;
+        }
+
+        return str_pad($invoiceNumber, 6, '0', STR_PAD_LEFT);
     }
 }
