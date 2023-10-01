@@ -5,10 +5,10 @@
 @endsection
 
 @section('content')
-    <div id="titulo">
-        <img src="{{ Vite::asset('resources/images/CAPS.jpg') }}" alt="" width="80" height="80">
+    <div id="titulo" class="header__page">
+        <img src="{{ Vite::asset('resources/images/CAPS.jpg') }}" alt="" width="80" height="80" />
         <h4>CAPS PLAN NICARAGUA LA UNION "ENMANUEL"</h4>
-        <img src="{{ Vite::asset('resources/images/agua.jpg') }}" width="80"height="80">
+        <img src="{{ Vite::asset('resources/images/agua.jpg') }}" width="80"height="80" />
     </div>
 
     <!-- Button trigger modal -->

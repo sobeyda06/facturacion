@@ -16,10 +16,9 @@ use App\Http\Controllers\ContactController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Auth::routes(['register' => false]);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('contacts', ContactController::class);
 Route::get('contacts/{contact}/pdf', [ContactController::class, 'pdf'])->name('contacts.pdf');

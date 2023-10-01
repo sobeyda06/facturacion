@@ -2,20 +2,22 @@ body{
     background-color: white;
 }
 
+.header__page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-#titulo{
-    background-color: rgb(253, 253, 253);
-    color: rgb(51, 55, 139);
-    text-align: center;
+.header__page > h4 {
     font-family: 'playfair';
-
+    color: rgb(51, 55, 139);
 }
 
-tr{
-color: brown;
+tr {
+    color: brown;
 }
 
-#reporte{
+#reporte {
     background-color: brown;
 }
 
