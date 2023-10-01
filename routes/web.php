@@ -19,8 +19,7 @@ Route::get('/', function () {
 });
 
 Auth::routes(['register' => false]);
-Route::get('/', [ContactController::class, 'pdf'])->name('contacts.pdf');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('contacts', ContactController::class);
-//Route::get('contacts/{contact}/pdf', [ContactController::class, 'pdf'])->name('contacts.pdf');
+Route::get('contacts/{contact}/pdf', [ContactController::class, 'pdf'])->name('contacts.pdf');

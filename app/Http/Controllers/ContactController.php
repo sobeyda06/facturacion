@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\PDF;
-//use Barryvdh\DomPDF\Facade\Pdf as PDF;
-
-
 
 final class ContactController extends Controller
 {
@@ -108,19 +105,5 @@ final class ContactController extends Controller
         $pdf = app(PDF::class);
         $pdf->loadView('contacts.show', compact('contact'));
         return $pdf->download("invoice-{$contact->id}.pdf");
-    
-       //$contact = Contact::all();
-        //$pdf = PDF::loadView('contacts.reporte');
-        //return $pdf->download('invoice.pdf');
-       // $pdf = Pdf::loadView('contacts.reporte');
-        //return $pdf->download('show.pdf');
-
-        //return view('contacts.reporte');
-      // $pdf = Pdf::loadView('contacts.reporte', compact('contact'));
-        // return $pdf->stream();
-    
-    
     }
-
-
 }
