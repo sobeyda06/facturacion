@@ -53,7 +53,7 @@
                         </small>
                     @enderror
                     <label form="monthly_consumption">Consumo mensual</label>
-                    <input type="number" name="monthly_consumption" class="form-control" id="monthly_consumption" readonly disabled />
+                    <input type="number" name="monthly_consumption" class="form-control" id="monthly_consumption" readonly />
                     @error('amount_payable')
                         <small>
                             <strong>{{ $message }}</strong>
