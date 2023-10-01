@@ -4,9 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Agregar nuevo </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('contacts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -39,7 +37,7 @@
                         </small>
                     @enderror
                     <label form="current_reading">Lectura actual</label>
-                    <input type="text" name="current_reading" class="form-control" id="resta1" name="resta1">
+                    <input type="number" name="current_reading" class="form-control" id="current_value" name="current_value">
 
                     @error('previous_reading')
                         <small>
@@ -47,7 +45,7 @@
                         </small>
                     @enderror
                     <label form="previous_reading">Lectura anterior</label>
-                    <input type="text" name="previous_reading" class="form-control" id="resta2" name="resta2">
+                    <input type="number" name="previous_reading" class="form-control" id="old_value" name="old_value">
 
                     @error('monthly_consumption')
                         <small>
@@ -55,8 +53,7 @@
                         </small>
                     @enderror
                     <label form="monthly_consumption">Consumo mensual</label>
-                    <input type="text" name="monthly_consumption" class="form-control" id="resultado"
-                        name="resultado">
+                    <input type="number" name="monthly_consumption" class="form-control" id="monthly_consumption" readonly disabled />
                     @error('amount_payable')
                         <small>
                             <strong>{{ $message }}</strong>

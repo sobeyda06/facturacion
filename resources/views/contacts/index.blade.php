@@ -75,6 +75,21 @@
         <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
         <script>
             new DataTable('#datatable');
+
+            // Calculate the monthly consumption value
+            const currentValue = document.getElementById('current_value');
+            const oldValue = document.getElementById('old_value');
+            const monthlyConsumptionElement = document.getElementById('monthly_consumption');
+
+            currentValue.addEventListener('input', calculateMonthlyConsumption);
+            oldValue.addEventListener('input', calculateMonthlyConsumption);
+
+            function calculateMonthlyConsumption() {
+                const current = parseFloat(currentValue.value) || 0;
+                const old = parseFloat(oldValue.value) || 0;
+                const monthlyConsumption = current - old;
+                monthlyConsumptionElement.value = monthlyConsumption.toFixed(2);
+            }
         </script>
     @endsection
     
