@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Contact::class)->constrained()->nullable();
+            $table->foreignIdFor(Contact::class)->nullable()->constrained();
             $table->bigInteger('number')->default(1)->unsigned();
             $table->timestamps();
         });

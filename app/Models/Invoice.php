@@ -10,7 +10,10 @@ class Invoice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['number'];
+    protected $fillable = [
+        'number',
+        'contact_id',
+    ];
 
     public function contact(): BelongsTo
     {

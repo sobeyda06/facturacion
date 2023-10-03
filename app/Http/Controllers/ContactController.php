@@ -105,7 +105,11 @@ final class ContactController extends Controller
         $pdf = app(PDF::class);
 
         $invoiceNumber = $this->generateInvoiceNumber();
-        Invoice::create(['number' => $invoiceNumber]);
+
+        Invoice::create(['number' => $invoiceNumber])
+            ->contact()
+            ->associate($contact)
+            ->save();
 
         $pdf->loadView('contacts.show', compact('contact', 'invoiceNumber'));
         return $pdf->download("invoice-{$invoiceNumber}.pdf");
