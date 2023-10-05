@@ -19,10 +19,15 @@ Auth::routes(['register' => false]);
 Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('welcome');
-    })->name('home');
+
+        //Route::get('contacts/{contact}', function () {
+          //  return view('contacts/index');
+    });
 
     Route::resource('contacts', ContactController::class);
     Route::get('contacts/{contact}/pdf', [ContactController::class, 'pdf'])->name('contacts.pdf');
+    Route::get('/invoices', [ContactController::class, 'showInvoices'])->name('contacts.showInvoices');
+
 });
 
 Auth::routes();

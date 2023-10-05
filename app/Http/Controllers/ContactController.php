@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,10 @@ final class ContactController extends Controller
             'amount_payable' =>  'required | numeric',
             'arrears' => 'required | numeric',
             'location' => 'required',
+
         ]);           
+
+
 
         Contact::create([
             'name' => $request->input('name'),
@@ -50,7 +54,7 @@ final class ContactController extends Controller
             'location' => $request->input('location'),
         ]);
 
-    
+
         return redirect()->back();
     }
 
@@ -95,7 +99,8 @@ final class ContactController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Contact $contact)
-    {
+    {   
+        $contact->deleteWithInvoices();
         $contact->delete();
         return redirect()->back()->with('success', 'usuario eliminado');
     }
@@ -104,26 +109,52 @@ final class ContactController extends Controller
     {
         $invoiceNumber = $this->generateInvoiceNumber();
         $pdf = app(PDF::class);
+
+        $invoiceNumber = $this->generateInvoiceNumber();
+
+        Invoice::create(['number' => $invoiceNumber])
+            ->contact()
+            ->associate($contact)
+            ->save();
+
         $pdf->loadView('contacts.show', compact('contact', 'invoiceNumber'));
         return $pdf->download("invoice-{$invoiceNumber}.pdf");
     }
 
-    private function generateInvoiceNumber()
+    private function generateInvoiceNumber(): string
     {
-        return DB::transaction(function () {
-            // Obtener y bloquear el número de factura actual
-            $numeroFacturaActual = DB::table('invoice_number')
-                ->lockForUpdate()
-                ->value('number');
-    
-            // Incrementar el número de factura
-            $numeroFacturaSiguiente = $numeroFacturaActual + 1;
-    
-            // Actualizar el número de factura en la base de datos
-            DB::table('invoice_number')
-                ->update(['number' => $numeroFacturaSiguiente]);
+        $latestInvoice = Invoice::latest()->first();
 
-            return str_pad($numeroFacturaSiguiente, 6, '0', STR_PAD_LEFT);
-        });
+        if ($latestInvoice) {
+            $invoiceNumber = $latestInvoice->number + 1;
+        } else {
+            $invoiceNumber = 1;
+        }
+
+        return str_pad($invoiceNumber, 6, '0', STR_PAD_LEFT);
+
     }
+
+    public function showInvoices()
+    {
+        // Obtener los datos necesarios, por ejemplo, las facturas
+        $invoices = Invoice::all();
+        //$invoices = Invoice::with('contact')->get();
+        
+        $reportData = [];
+
+        foreach($invoices as $invoice){
+            $reportData[] =[
+            'numero_reporte' => $invoice->number,
+            'nombre_contacto' => $invoice->contact->name,
+            'consumo_mensual' => $invoice->contact->monthly_consumption,
+            ];
+
+            $invoice->delete();
+        }
+
+        // Cargar la vista y pasar los datos
+        return view('invoices.report', compact('invoices'));
+    }
+
 }

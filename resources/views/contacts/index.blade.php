@@ -1,4 +1,4 @@
-@extends('home')
+@extends('layouts.app')
 
 @section('css')
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
@@ -69,29 +69,29 @@
         </tbody>
     </table>
 
-    @section('js')
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-        <script>
-            new DataTable('#datatable');
+@section('js')
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        new DataTable('#datatable');
 
-            // Calculate the monthly consumption value
-            const currentValue = document.getElementById('current_value');
-            const oldValue = document.getElementById('old_value');
-            const monthlyConsumptionElement = document.getElementById('monthly_consumption');
+        // Calculate the monthly consumption value
+        const currentValue = document.getElementById('current_value');
+        const oldValue = document.getElementById('old_value');
+        const monthlyConsumptionElement = document.getElementById('monthly_consumption');
 
-            currentValue.addEventListener('input', calculateMonthlyConsumption);
-            oldValue.addEventListener('input', calculateMonthlyConsumption);
+        currentValue.addEventListener('input', calculateMonthlyConsumption);
+        oldValue.addEventListener('input', calculateMonthlyConsumption);
 
-            function calculateMonthlyConsumption() {
-                const current = parseFloat(currentValue.value) || 0;
-                const old = parseFloat(oldValue.value) || 0;
-                const monthlyConsumption = current - old;
-                monthlyConsumptionElement.value = monthlyConsumption.toFixed(2);
-            }
-        </script>
-    @endsection
-    
-    @include('contacts.modal-create')
+        function calculateMonthlyConsumption() {
+            const current = parseFloat(currentValue.value) || 0;
+            const old = parseFloat(oldValue.value) || 0;
+            const monthlyConsumption = current - old;
+            monthlyConsumptionElement.value = monthlyConsumption.toFixed(2);
+        }
+    </script>
+@endsection
+
+@include('contacts.modal-create')
 @endsection
