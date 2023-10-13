@@ -3,7 +3,7 @@
 @section('css')
     <style>
         #tabla {
-            width: 700px;
+            width: 450px;
             padding: 20px;
             border: 1px solid gray;
         }
@@ -11,16 +11,20 @@
         #encabezado {
             font-family: 'Bahnschrift';
             text-align: center;
+            line-height: 1.8em;
         }
 
         #title {
             font-family: 'Bahnschrift';
             text-align: center;
+            line-height: 1.8em;
         }
 
         #tit {
             font-family: 'Bahnschrift';
             text-align: center;
+            line-height: 110%;
+
         }
 
         h5 {
@@ -56,30 +60,39 @@
             font-family: 'Consolas';
             border: 1px solid white;
         }
+        #caps{
+            font-family: 'Bahnschrift';
+            text-align: center;
+        }
+        #admin{
+            font-family: 'Bahnschrift';
+            text-align: center;
+        }
+
+        #number{
+            color: red;
+            text-align: right;
+        }
     </style>
 @endsection
 
 @section('content')
     <div id="tabla">
         <div id="titulo">
-            <img src="{{ Vite::asset('resources/images/Puerto.jpg') }}" width="60" height="60" />
-            <a>
+            <p id="caps">
                 CAPS PLAN NICARAGUA
-            </a>
-            <img src="{{ Vite::asset('resources/images/CAPS.jpg') }}" alt="img" width="60" height="60" />
+            </p>
         </div>
 
-        <p id="tit"> LA UNION "ENMANUEL"</p>
-        <p id="encabezado">Comite de agua potable "PLAN NICARAGUA"</P>
-        <p id="title">Barrio Plan Nicaragua La Union-RUC:J0810000400833</P>
-
+        <p id="tit"> LA UNION "ENMANUEL" <br />Comite de agua potable "PLAN NICARAGUA" <br />Barrio Plan Nicaragua La Union-RUC:J0810000400833</p>
+     
         <h5>FACTURA Y ESTADO DE CUENTA</h5>
-        No {{ $invoiceNumber ?? $contact->id }}
+       <p id="number" > No {{ $invoiceNumber ?? $contact->id }} </p>
 
         <p id="name">Nombre: {{ $contact->name }} </p>
         <p>Cedula: {{ $contact->identification }}</p>
 
-        <p id="medidor">N medidor: {{ $contact->measurer }}</p>
+        <p id="medidor">Numero de medidor: {{ $contact->measurer }}</p>
 
         <p>Lectura anterior: {{ $contact->previous_reading }}</p>
 
@@ -93,10 +106,12 @@
 
         <p id="dir"> Direccion:{{ $contact->location }}</p>
 
-        <p>Observaciones</p>
+        <p>Observaciones:________________________________________</p>
 
         <br />
-        <p>Administracion:___________________________</p>
+        <p id="admin" >Administracion:___________________________<br />
+        Haciendo buen uso del agua, pagamos menos.<br />
+        NOTA: Con 2 meses pendientes de pago, se corta el servicio</p>
 
     </div>
 @endsection

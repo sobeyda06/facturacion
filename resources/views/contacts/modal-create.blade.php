@@ -14,21 +14,21 @@
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="name">Nombre</label>
+                    <label for="name">Nombre</label>
                     <input type="text" name="name" class="form-control">
                     @error('identification')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="identification">Cedula</label>
+                    <label for="identification">Cedula</label>
                     <input type="text" name="identification" class="form-control">
                     @error('measurer')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="measurer">N medidor</label>
+                    <label for="measurer">N medidor</label>
                     <input type="text" name="measurer" class="form-control">
 
                     @error('current_reading')
@@ -36,45 +36,62 @@
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="current_reading">Lectura actual</label>
-                    <input type="number" name="current_reading" class="form-control" id="current_value" name="current_value">
+                    <label for="current_reading">Lectura actual</label>
+                    <input type="number" class="form-control" id="current_reading" name="current_reading">
 
                     @error('previous_reading')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="previous_reading">Lectura anterior</label>
-                    <input type="number" name="previous_reading" class="form-control" id="old_value" name="old_value">
+                    <label for="previous_reading">Lectura anterior</label>
+                    <input type="number" class="form-control" id="previous_reading" name="previous_reading">
 
                     @error('monthly_consumption')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="monthly_consumption">Consumo mensual</label>
-                    <input type="number" name="monthly_consumption" class="form-control" id="monthly_consumption" readonly />
+                    <label for="monthly_consumption">Consumo mensual</label>
+                    <input type="number" class="form-control" id="monthly_consumption" name="monthly_consumption" readonly />
                     @error('amount_payable')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="amount_payable">Monto a pagar</label>
+                    <label for="amount_payable">Monto a pagar</label>
                     <input type="text" name="amount_payable" class="form-control">
                     @error('arrears')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="arrears">Mora</label>
+                    <label for="arrears">Mora</label>
                     <input type="text" name="arrears" class="form-control">
                     @error('location')
                         <small>
                             <strong>{{ $message }}</strong>
                         </small>
                     @enderror
-                    <label form="location">direccion</label>
+                    <label for="location">direccion</label>
                     <input type="text" name="location" class="form-control">
+
+<script>
+    // Calcular el valor del consumo mensual para el modal de creación
+    const createCurrentValueField = document.querySelector('#create [name="current_reading"]');
+    const createOldValueField = document.querySelector('#create [name="previous_reading"]');
+    const createMonthlyConsumptionField = document.querySelector('#create [name="monthly_consumption"]');
+    
+    createCurrentValueField.addEventListener('input', calculateMonthlyConsumption);
+    createOldValueField.addEventListener('input', calculateMonthlyConsumption);
+
+    function calculateMonthlyConsumption() {
+        const current = parseFloat(createCurrentValueField.value) || 0;
+        const old = parseFloat(createOldValueField.value) || 0;
+        const monthlyConsumption = current - old;
+        createMonthlyConsumptionField.value = monthlyConsumption.toFixed(2);
+    }
+</script>
 
                 </div>
 

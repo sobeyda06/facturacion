@@ -10,52 +10,67 @@
                 </button>
             </div>
 
-            <form action=" {{ route('contacts.update', ['contact' => $contact->id]) }} " method="POST"
+            <form action="{{ route('contacts.update', ['contact' => $contact->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
-                    <label form="name">Nombre</label>
+                    <!-- Simplificar etiquetas y campos de entrada -->
+                    <label for="name-{{ $contact->id }}">Nombre</label>
                     <input type="text" name="name" class="form-control" value="{{ $contact->name }}">
-
-                    <label form="identification">Cedula</label>
-                    <input type="text" name="identification" class="form-control"
-                        value="{{ $contact->identification }}">
-
-                    <label form="measurer">N medidor</label>
+                    
+                    <label for="identification-{{ $contact->id }}">Cedula</label>
+                    <input type="text" name="identification" class="form-control" value="{{ $contact->identification }}">
+                    
+                    <label for="measurer-{{ $contact->id }}">N medidor</label>
                     <input type="text" name="measurer" class="form-control" value="{{ $contact->measurer }}">
-
-                    <label form="current_reading">Lectura actual</label>
-                    <input type="text" name="current_reading" class="form-control"
-                        value="{{ $contact->current_reading }}">
-
-                    <label form="previous_reading">Lectura anterior</label>
-                    <input type="text" name="previous_reading" class="form-control"
-                        value="{{ $contact->previous_reading }}">
-
-                    <label form="monthly_consumption">Consumo mensual</label>
-                    <input type="text" name="monthly_consumption" class="form-control"
-                        value="{{ $contact->monthly_consumption }}">
-
-                    <label form="amount_payable">Monto a pagar</label>
-                    <input type="text" name="amount_payable" class="form-control"
-                        value="{{ $contact->amount_payable }}">
-
-                    <label form="arrears">Mora</label>
+                    
+                    <label for="current_value-{{ $contact->id }}">Lectura actual</label>
+                    <input type="number" class="form-control" id="current_value-{{ $contact->id }}" name="current_reading" value="{{ $contact->current_reading }}">
+                    
+                    <label for="previous_value-{{ $contact->id }}">Lectura anterior</label>
+                    <input type="number" class="form-control" id="previous_value-{{ $contact->id }}" name="previous_reading" value="{{ $contact->previous_reading }}">
+                    
+                    <label for="monthly_value-{{ $contact->id }}">Consumo mensual</label>
+                    <input type="number" class="form-control" id="monthly_value-{{ $contact->id }}" name="monthly_consumption" value="{{ $contact->monthly_consumption }}">
+                    
+                    <label for="amount_payable-{{ $contact->id }}">Monto a pagar</label>
+                    <input type="text" name="amount_payable" class="form-control" value="{{ $contact->amount_payable }}">
+                    
+                    <label for="arrears-{{ $contact->id }}">Mora</label>
                     <input type="text" name="arrears" class="form-control" value="{{ $contact->arrears }}">
-
-                    <label form="location">Direccion</label>
+                    
+                    <label for="location-{{ $contact->id }}">Direccion</label>
                     <input type="text" name="location" class="form-control" value="{{ $contact->location }}">
                 </div>
-
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">salir</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
                     <button type="submit" class="btn btn-primary">Actualizar</button>
                 </div>
+                
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    // Calcular el valor del consumo mensual para el modal de edición
+    (function() {
+        const contactId = {{ $contact->id }}; // Obtén el ID del contacto actual
+        const editCurrentValueField = document.getElementById('current_value-' + contactId);
+        const editOldValueField = document.getElementById('previous_value-' + contactId);
+        const editMonthlyConsumptionField = document.getElementById('monthly_value-' + contactId);
+
+        editCurrentValueField.addEventListener('input', function() {
+            const current = parseFloat(editCurrentValueField.value) || 0;
+            const old = parseFloat(editOldValueField.value) || 0;
+            const monthlyConsumption = current - old;
+            editMonthlyConsumptionField.value = monthlyConsumption.toFixed(2);
+        });
+    })();
+</script>
+
+
 
 <!-- Modal delete-->
 <div class="modal fade" id="delete-{{ $contact->id }}" tabindex="-1" role="dialog"

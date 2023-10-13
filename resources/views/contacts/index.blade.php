@@ -5,16 +5,45 @@
 @endsection
 
 @section('content')
+
+<style>
+    body{
+    background-color: white;
+}
+
+.header__page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__page > h4 {
+    font-family: 'playfair';
+    color: rgb(51, 55, 139);
+}
+
+tr {
+    color: brown;
+}
+
+#reporte {
+    background-color: brown;
+}
+
+
+</style>
     <div id="titulo" class="header__page">
-        <img src="{{ Vite::asset('resources/images/CAPS.jpg') }}" alt="" width="80" height="80" />
+           <img src="{{ asset('img/CAPS.jpg') }}" alt="" width="80" height="80" />
         <h4>CAPS PLAN NICARAGUA LA UNION "ENMANUEL"</h4>
-        <img src="{{ Vite::asset('resources/images/agua.jpg') }}" width="80"height="80" />
+        <img src="{{asset('img/agua.jpg') }}" width="80"height="80" />
     </div>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create">
         Nuevo
     </button>
+    <a href="{{ route('contacts.showInvoices') }}" class="btn btn-primary">Ver reporte</a>
+
 
     <table class="table" id="datatable">
         <thead id="tabla">
@@ -75,21 +104,6 @@
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <script>
         new DataTable('#datatable');
-
-        // Calculate the monthly consumption value
-        const currentValue = document.getElementById('current_value');
-        const oldValue = document.getElementById('old_value');
-        const monthlyConsumptionElement = document.getElementById('monthly_consumption');
-
-        currentValue.addEventListener('input', calculateMonthlyConsumption);
-        oldValue.addEventListener('input', calculateMonthlyConsumption);
-
-        function calculateMonthlyConsumption() {
-            const current = parseFloat(currentValue.value) || 0;
-            const old = parseFloat(oldValue.value) || 0;
-            const monthlyConsumption = current - old;
-            monthlyConsumptionElement.value = monthlyConsumption.toFixed(2);
-        }
     </script>
 @endsection
 
